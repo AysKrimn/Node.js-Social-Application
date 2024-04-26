@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useLocation } from 'react-router-dom'
+import { UserProvider } from '../Context/UserContext'
 
 export default function UserCard() {
+
+ const { user, setUser } = useContext(UserProvider)
+
 
  let staticURL = ""
 
@@ -28,7 +32,7 @@ export default function UserCard() {
                                         
                                         <img src={staticURL} alt="logo" />
 
-                                        <a href="?">Tester</a>
+                                        <a href="?">{user?.username || "Tester"}</a>
                                     </div>
                             </div>
 
