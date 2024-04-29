@@ -32,10 +32,19 @@ const UserSchema = new mongoose.Schema({
         default: ["User"]
 
         // user veya admin olabilir
+    },
+
+
+    avatar: {
+
+        type: String
     }
 
 
+},
 
+{
+    timestamps: true
 })
 
 

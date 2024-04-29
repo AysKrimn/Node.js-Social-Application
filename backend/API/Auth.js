@@ -6,7 +6,53 @@ const route = express.Router()
 import UserModel from "../Database/Models/UserModel.js"
 
 import bcrpyt from 'bcrypt'
+import jwt from "jsonwebtoken"
+import { tweet_attachment_upload } from "../ImageService/multer.js"
 
+
+
+route.post("/create/tweet", tweet_attachment_upload.single("attachment"), async (request, response) => {
+
+    console.log("REQUEST FILE:", request.file, "veya", request.files)
+    console.log("body", request.body)
+
+    const user = await UserModel.findOne({ _id: "662eff82b29f5dab3fffebd2"})
+    user.avatar = request.file.path
+    await user.save()
+
+    return response.json({ data: "ok"})
+})
+
+route.get("/recent", async (request, response) => {
+
+    const today = new Date();
+    today.setHours(today.getHours() - 24);
+
+    const recentUsers = await UserModel.find({ createdAt: { $gte: today } })
+
+    return response.status(200).json({ data: recentUsers})
+
+})
+
+route.post("/verify", async (request, response) => {
+
+    const { token } = request.body
+
+    if (!token) return response.status(400).json({ data: "Token belirtilmedi"})
+
+    try {
+       
+        const user = jwt.verify(token, process.env["JWT_SECRET"])
+
+        return response.status(200).json({ data: user})
+
+    } catch (error) {
+        
+        response.status(400).json({ data: "geçersiz token"})
+    }
+ 
+
+})
 
 route.post("/login", async (request, response) => {
 
@@ -18,7 +64,15 @@ route.post("/login", async (request, response) => {
     }
 
     // useri bul
-    const user = await UserModel.findOne({ username })
+    const user = await UserModel.findOne({ 
+        
+        $or: [
+
+            {username},
+            {email: username}
+        ]
+   
+    })
 
     if (user === null) {
 
@@ -33,7 +87,10 @@ route.post("/login", async (request, response) => {
     }
 
 
-    response.status(200).json({ data: "ok", user: user})
+    const payload = { username: user.username, email: user.email, role: user.role }
+    const token = jwt.sign(payload, process.env['JWT_SECRET'])
+
+    response.status(200).json({ data: "ok", user: user, token: token })
 
 })
 

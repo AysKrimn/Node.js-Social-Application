@@ -16,6 +16,7 @@ import { route as AuthenticationAPI } from "./API/Auth.js"
 // sunucu yapılandırması
 import cors from "cors"
 server.use(cors())
+server.use(express.static("public"))
 
 //veritabanı bağlantısı
 make_db_connection()
