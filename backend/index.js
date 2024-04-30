@@ -11,7 +11,7 @@ import make_db_connection from "./Database/connect.js"
 
 // APIlar
 import { route as AuthenticationAPI } from "./API/Auth.js"
-
+import { route as TweetAPI } from "./API/Tweet.js"
 
 // sunucu yapılandırması
 import cors from "cors"
@@ -30,6 +30,7 @@ server.get('/', (req, res) => {
 
 // yan endpointler
 server.use(`${base_api_url}/`, AuthenticationAPI) // api/v1/login
+server.use(`${base_api_url}/`, TweetAPI)  // api/v1/tweet/create
 
 const port = process.env["PORT"]
 

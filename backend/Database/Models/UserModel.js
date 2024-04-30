@@ -32,10 +32,13 @@ const UserSchema = new mongoose.Schema({
         default: ["User"]
 
         // user veya admin olabilir
-    }
+    },
 
+    // createdAt & updatedAt
 
+}, {
 
+    timestamps: true
 })
 
 

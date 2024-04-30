@@ -1,8 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import UserCard from '../Components/UserCard'
 import TweetCard from '../Components/TweetCard'
+import { base_endpoint } from '../API/RequestHandler'
 
 export default function HomePage() {
+
+
+  const [tweetInput, setTweetInput] = useState("")
+  const [file, setFile] = useState("")
+
+  const create_tweet = async (event) => {
+
+        event.preventDefault()
+
+        const payload = new FormData()
+        
+        payload.append("tweet", tweetInput)
+        // // resmi gönder
+        // payload.append("attachment", file)
+
+        const request = await fetch(`${base_endpoint}/tweet/create`, {
+
+                method: "post",
+                headers: {
+                   "Authorization": `Bearer ${localStorage.getItem("token")}`
+                },
+                body: JSON.stringify(payload)
+        })
+
+
+        const response = await request.json()
+
+        console.log("[TWEET API]:", response)
+  }
+
   return (
 
         <>
@@ -12,17 +43,17 @@ export default function HomePage() {
                     <UserCard></UserCard>
 
 
-                    <form action="">
+                    <form onSubmit={create_tweet}>
 
                         <div>
 
-                                <textarea className='form-control' placeholder='Neler oluyor?'></textarea>
+                                <textarea value={tweetInput} onChange={e => setTweetInput(e.target.value)} className='form-control' placeholder='Neler oluyor?'></textarea>
                         </div>
 
                         <div className='post-container'>
 
                             <div>
-                                    <input type="file" className='form-control' />
+                                    <input onChange={e => setFile(e.target.files[0])} type="file" className='form-control' />
                             </div>
 
                             <div>

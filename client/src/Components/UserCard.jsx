@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { UserProvider } from '../Context/UserContext'
 
-export default function UserCard() {
+export default function UserCard(props) {
 
  const { user, setUser } = useContext(UserProvider)
-
+ const { recent_user } = props
 
  let staticURL = ""
 
@@ -21,23 +21,44 @@ export default function UserCard() {
  }
 
 
+  const layout = () => {
+
+    let model = null
+    let initialClass = "tweet-container"
+
+    if (recent_user) {
+
+        model = recent_user
+        initialClass += " mb-2"
+
+    } else {
+
+        model = user
+    }
+
+    return ( 
+    
+        <div className={initialClass}>
+
+            <div className='tweet-author'>
+
+                    <div className='tweet-avatar'>
+                        
+                        <img src={staticURL} alt="logo" />
+
+                        <Link to={`/profile/${model?.username}`}>{model?.username}</Link>
+                    </div>
+            </div>
+
+        </div>
+
+    )}
+
   return (
 
         <>
-                    <div className="tweet-container">
-
-                            <div className='tweet-author'>
-
-                                    <div className='tweet-avatar'>
-                                        
-                                        <img src={staticURL} alt="logo" />
-
-                                        <a href="?">{user?.username || "Tester"}</a>
-                                    </div>
-                            </div>
-
-                    </div>
-        
+           
+                {layout()}
         </>
   )
 }

@@ -7,6 +7,48 @@ import UserModel from "../Database/Models/UserModel.js"
 
 import bcrpyt from 'bcrypt'
 
+// jwt
+import jwt from 'jsonwebtoken'
+
+
+
+route.get("/recent", async (request, response) => {
+
+        const today = new Date()
+        today.setHours(today.getHours() - 24)
+
+        // greater than equal
+        const recent_users = await UserModel.find({ createdAt: { $gte: today} })
+
+        response.status(200).json({ data: recent_users })
+
+})
+
+route.post("/verify/token", (request, response) => {
+
+    const { token } = request.body
+
+    if (!token) {
+
+        return response.status(400).json({ data: "Token belirtilmedi."})
+    }
+
+
+    jwt.verify(token, process.env["JWT_SECRET"], function(error, user) {
+
+
+        if (error) {
+
+            return response.status(401).json({ data: "Geçersiz token"})
+        }
+
+
+        return response.status(200).json({ data: user})
+
+    })
+
+
+})
 
 route.post("/login", async (request, response) => {
 
@@ -18,7 +60,14 @@ route.post("/login", async (request, response) => {
     }
 
     // useri bul
-    const user = await UserModel.findOne({ username })
+    const user = await UserModel.findOne({
+        // field lookup
+        $or: [
+
+            { username: username },
+            { email: username}
+        ]
+    })
 
     if (user === null) {
 
@@ -33,7 +82,18 @@ route.post("/login", async (request, response) => {
     }
 
 
-    response.status(200).json({ data: "ok", user: user})
+    // tokende tutulması gerekne verileri ayarla
+    const payload = {
+
+            id: user._id,
+            username: user.username,
+            email: user.email,
+            role: user.role
+    }
+
+    const token = jwt.sign(payload, process.env['JWT_SECRET'])
+
+    response.status(200).json({ data: "ok", user: user, token: token})
 
 })
 

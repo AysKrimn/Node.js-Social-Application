@@ -43,6 +43,8 @@ export default function LoginPage() {
 
             // user güncelle
             setUser(response.user)
+            // tokeni localde kaydet
+            localStorage.setItem("token", response.token)
             // logni yap
             yonlendir("/")
 
@@ -74,8 +76,8 @@ export default function LoginPage() {
                         <div className='mb-3'>
 
                             <label className='w-100'>
-                                Kullanıcı Adı:
-                                <input className='form-control' type="text" placeholder='Kullanıcı Adınız'
+                                Kullanıcı Adı veya E-posta:
+                                <input className='form-control' type="text" placeholder='Kullanıcı Adınız veya e-posta'
                                 
                                     onChange={(e) => setUsername(e.target.value)} value={username}
                                 />
