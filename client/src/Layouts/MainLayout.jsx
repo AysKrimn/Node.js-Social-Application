@@ -57,14 +57,16 @@ export default function MainLayout() {
 
 
                             {/* Profile Banner vs */}
-                            <div className="col-3 text-center">
+                            <div className="col-3 text-center left-side">
                                 
+                              <div className='short-profile-container'>
+
                                 <h4>Profiliniz</h4>
                                 <hr />
 
                                 { loader ? <Loader></Loader> : <UserCard></UserCard> }
                          
-
+                             </div>
                             </div>
                             
                             {/* ana akış */}
@@ -74,13 +76,16 @@ export default function MainLayout() {
                             </div>
 
                             {/* Yeni Kayıt Olan Üyeler */}
-                            <div className="col-3 text-center">
+                            <div className="col-3 text-center right-side">
                                 
-                                <h4>Topluluğa Yeni Katılanlar</h4>
-                                <hr />
+                             <div className='recent-user-container'>
+                                    <h4>Topluluğa Yeni Katılanlar</h4>
+                                    <hr />
 
-                                { loader ? <Loader></Loader> : <RecentUsers></RecentUsers> }
+                                    { loader ? <Loader></Loader> : <RecentUsers></RecentUsers> }
 
+                            </div>
+                            
                             </div>
 
                     </div>

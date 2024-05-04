@@ -1,23 +1,28 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import UserCard from '../Components/UserCard'
 import TweetCard from '../Components/TweetCard'
 import { base_endpoint } from '../API/RequestHandler'
 
-export default function HomePage() {
+// providers
+import { TweetProvider } from '../Context/TweetContext'
 
+export default function HomePage() {
 
   const [tweetInput, setTweetInput] = useState("")
   const [file, setFile] = useState("")
 
+  const { tweets, setTweets} = useContext(TweetProvider)
+  // tweet oluşturma
   const create_tweet = async (event) => {
 
         event.preventDefault()
 
+        console.log("DOSYA URI:", file)
         const payload = new FormData()
         
         payload.append("tweet", tweetInput)
         // // resmi gönder
-        // payload.append("attachment", file)
+        payload.append("attachment", file)
 
         const request = await fetch(`${base_endpoint}/tweet/create`, {
 
@@ -25,22 +30,54 @@ export default function HomePage() {
                 headers: {
                    "Authorization": `Bearer ${localStorage.getItem("token")}`
                 },
-                body: JSON.stringify(payload)
+                body: payload
         })
 
 
         const response = await request.json()
 
         console.log("[TWEET API]:", response)
+
+        if (request.status === 201) {
+                
+                setTweetInput("")
+                setFile("")
+
+                // context güncelle
+                setTweets([...tweets, response.data ])
+        }
   }
+
+
+  // tüm tweetleri çek
+  const get_all_tweets = async () => {
+
+        const request = await fetch(`${base_endpoint}/tweets`)
+        const response = await request.json()
+
+        console.log("ALL TWEET API", response)
+
+        if (request.status === 200) {
+
+                setTweets(response.data)
+        }
+
+  }
+
+  useEffect(() => {
+
+        get_all_tweets()
+
+  }, [])
 
   return (
 
         <>
 
+
             <div className='tweet-submit-container'>
 
-                    <UserCard></UserCard>
+                    <UserCard main={true}></UserCard>
 
 
                     <form onSubmit={create_tweet}>
@@ -64,9 +101,15 @@ export default function HomePage() {
             </div>
 
 
+
+     
             <div className='user-feed mt-3'>
 
-                    <TweetCard></TweetCard>
+                {tweets.map((tweet) => {
+
+                      return <TweetCard key={tweet._id} content = {tweet}></TweetCard>
+
+                })}
             </div>
 
            

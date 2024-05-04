@@ -2,8 +2,7 @@
 import jwt from "jsonwebtoken"
 
 const check_token = (request, response, next) => {
-
-    console.log("GELEN HEADER:", request.headers)
+    
     const token_header = request.headers["authorization"]
 
     if  (!token_header) {

@@ -1,7 +1,8 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { base_endpoint } from '../API/RequestHandler'
 import { UserProvider } from '../Context/UserContext'
+import BackBtn from '../Components/BackBtn'
 
 
 export default function LoginPage() {
@@ -65,8 +66,11 @@ export default function LoginPage() {
         
             <div className='container sign-in-container mt-5'>
 
+                 
 
                     <form action="" className='w-50' onSubmit={call_login_api}>
+
+                        <BackBtn></BackBtn>
 
                         <h3>Giriş Yap</h3>
                         <hr />
