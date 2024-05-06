@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import UserCard from '../Components/UserCard'
+
+// Components
 import TweetCard from '../Components/TweetCard'
+import TweetCardAuthor from '../Components/TweetCardAuthor'
+
 import { base_endpoint } from '../API/RequestHandler'
 
 // providers
 import { TweetProvider } from '../Context/TweetContext'
+
 
 export default function HomePage() {
 
@@ -77,7 +81,7 @@ export default function HomePage() {
 
             <div className='tweet-submit-container'>
 
-                    <UserCard main={true}></UserCard>
+                    <TweetCardAuthor></TweetCardAuthor>
 
 
                     <form onSubmit={create_tweet}>

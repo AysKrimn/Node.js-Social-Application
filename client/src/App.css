@@ -4,6 +4,13 @@
     top: 20px;
 }
 
+.edit-btn svg {
+
+    color: orange;
+    cursor: pointer;
+}
+
+
 .user-logout-container {
 
     text-align: end;

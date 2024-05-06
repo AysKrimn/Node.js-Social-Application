@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { UserProvider } from '../Context/UserContext'
+import EditUserPencil from './Modals/EditUserPencil'
 
 export default function UserCard(props) {
 
@@ -78,6 +79,8 @@ export default function UserCard(props) {
                         <img src={staticURL} alt="logo" />
 
                         {user ? <Link to={`/profile/${model?.username}`}>{model?.username}</Link> : "Anomim" }
+                   
+                        {user ? <EditUserPencil></EditUserPencil>  : null }
                    
                     </div>
             </div>

@@ -32,6 +32,10 @@ export default function MainLayout() {
                 if (request.status === 200) {
 
                     setUser(response.data)
+                } else {
+
+                    // token geçersiz, cacheden sil
+                    localStorage.removeItem("token")
                 }
 
         }
