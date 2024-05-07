@@ -11,6 +11,11 @@
 }
 
 
+.to_post {
+
+    color: inherit;
+}
+
 .user-logout-container {
 
     text-align: end;
@@ -72,6 +77,79 @@
     margin-top: 8px;
 }
 
+
+.tweet-bottom-container {
+
+    display: flex;
+    align-items: center;
+}
+
+
+.tweet-buttons {
+
+    flex: 1;
+    padding: 1rem;
+    padding-left: 5rem;
+
+    svg {
+
+        cursor: pointer;
+    }
+
+    svg:nth-child(1) {
+
+        margin-right: 8px;
+    }
+}
+
+
+.tweet-date {
+
+    margin-right: 1rem;
+}
+
+
+.tweet-reply-container {
+
+    border: 1px solid gainsboro;
+    margin-top: 1rem;
+    margin: 4px;
+    border-radius: 5px;
+
+    .comment-box-wrapper {
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    .comment-box {
+
+        flex: 1;
+
+        textarea {
+
+            border: none;
+            resize: none;
+            transition: 0.2s;
+        }
+
+        textarea:focus {
+
+                border: 1px solid aqua;
+                outline: none;
+        }
+    }
+
+
+}
+
+
+.form-control:focus {
+
+        box-shadow: none;
+}
 
 .general-tweet-card-container {
 

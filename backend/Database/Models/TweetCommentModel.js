@@ -1,9 +1,6 @@
 import mongoose from "mongoose";
 
-
-// tweet > tweet comment modele
-// tweet comment model > tweet
-const TweetSchema = new mongoose.Schema({
+const CommentSchema = new mongoose.Schema({
 
     author: {
 
@@ -14,18 +11,16 @@ const TweetSchema = new mongoose.Schema({
 
     tweet: {
 
-        type: String,
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: "tweets",
         required: true
     },
 
+    comment: {
 
-    // [yorum_id_1, yorum_id_2]
-    comments: {
-
-        type: [mongoose.SchemaTypes.ObjectId],
-        ref: "comments",
+        type: String,
+        required: true
     },
-
 
     attachment: {
 
@@ -40,7 +35,7 @@ const TweetSchema = new mongoose.Schema({
 
 
 
-const model = mongoose.model("tweets", TweetSchema)
+const model = mongoose.model("comments", CommentSchema)
 
 
 export default model

@@ -14,7 +14,7 @@ import make_db_connection from "./Database/connect.js"
 import { route as AuthenticationAPI } from "./API/Auth.js"
 import { route as TweetAPI } from "./API/Tweet.js"
 import { route as UserAPI } from "./API/User.js"
-
+import { route as CommentAPI } from "./API/Comment.js"
 // sunucu yapılandırması
 import cors from "cors"
 server.use(cors())
@@ -34,6 +34,7 @@ server.get('/', (req, res) => {
 server.use(`${base_api_url}/`, AuthenticationAPI) // api/v1/login
 server.use(`${base_api_url}/`, UserAPI) // api/v1/users/omer
 server.use(`${base_api_url}/`, TweetAPI)  // api/v1/tweet/create
+server.use(`${base_api_url}/`, CommentAPI)  // api/v1/tweets/<tweetId>/[create, delete, update]/comment
 
 const port = process.env["PORT"]
 

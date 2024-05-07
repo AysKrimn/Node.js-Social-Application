@@ -15,7 +15,7 @@ import { tweet_attachment_upload } from '../ImageService/StorageConfig.js'
 route.get("/tweets", async (request, response) => {
 
         // tüm tweetleri çek
-        const all_tweets = await TweetModel.find().populate("author")
+        const all_tweets = await TweetModel.find().populate("author comments")
 
         response.status(200).json({ data: all_tweets})
 
@@ -57,6 +57,7 @@ route.post("/tweet/create", tweet_attachment_upload.single("attachment"), async 
         // tweet oluştur
         const tweetInstance = await TweetModel.create(payload)       
      
+        await tweetInstance.populate("author")
  
         response.status(201).json({ data: tweetInstance })
 

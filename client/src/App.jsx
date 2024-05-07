@@ -11,6 +11,8 @@ import LoginPage from './Pages/LoginPage'
 import RegisterPage from './Pages/RegisterPage'
 import ProfilePage from './Pages/ProfilePage'
 import NotFoundPage from './Pages/NotFound'
+import TweetDetail from './Pages/TweetDetail'
+
 
 function App() {
 
@@ -26,7 +28,7 @@ function App() {
 
                     <Route path='/' element={<HomePage></HomePage>}></Route>
                     <Route path="/profile/:username" element={<ProfilePage></ProfilePage>}></Route>
-                    
+                    <Route path="/tweets/:tweetId" element={<TweetDetail></TweetDetail>}></Route>
               </Route>
 
 
