@@ -94,6 +94,7 @@ route.post("/users/:userid/update", check_token, async (request, response) => {
             role: target_user.role
         }
 
+    
         const updated_token = jwt.sign(payload, process.env['JWT_SECRET'])
         // user güncellenmiştir
         response.status(201).json({ data: updated_user, token: updated_token})
