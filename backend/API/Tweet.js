@@ -15,11 +15,59 @@ import { tweet_attachment_upload } from '../ImageService/StorageConfig.js'
 route.get("/tweets", async (request, response) => {
 
         // tüm tweetleri çek
-        const all_tweets = await TweetModel.find().populate("author comments")
+        
+        const all_tweets = await TweetModel.find().populate("author").populate({
+
+                path: "comments",
+                populate: {
+
+                     path: "author"
+                }
+        })
 
         response.status(200).json({ data: all_tweets})
 
 })
+
+
+// tweet detay sayfası
+route.get("/tweets/:tweetId", async (request, response) => {
+
+
+        try {
+
+           const tweetId = request.params.tweetId
+
+           const tweet = await TweetModel.findOne({ _id: tweetId}).populate("author").populate({
+
+                path: "comments",
+                populate: {
+
+                        path: "author"
+                }
+           })
+
+           return response.status(200).json({ data: tweet })
+
+        } catch (error) {
+                
+
+                let statusCode = 500
+                let errorMsg = "Bir şeyler ters gitti lütfen daha sonra tekrar dene."
+
+                if (error.name === "CastError") {
+
+                        statusCode = 404
+                        errorMsg = "Böyle bir tweet bulunamadı."
+                        
+                }
+
+                return response.status(statusCode).json({ data: errorMsg})
+        }
+})
+
+
+
 // buradan itibaren token kontrolü yapılmaya başlanır
 route.use(check_token)
 // tweet oluşturma

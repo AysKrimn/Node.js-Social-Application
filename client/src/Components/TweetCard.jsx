@@ -35,8 +35,9 @@ export default function TweetCard(props) {
       if (request.status === 201) {
 
           alert(response.message)
+          window.location.reload()
       } else {
-
+          // bir hata meydana geldi.
           alert(response.data)
       }
 

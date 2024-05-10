@@ -12,6 +12,12 @@ import jwt from "jsonwebtoken"
 // hash mekanizması
 import bcrypt from "bcrypt"
 
+// user avatar middleware
+import { user_avatar_upload } from '../ImageService/StorageConfig.js'
+
+
+
+
 route.get("/users/:username", async (request, response) => {
 
     const query_username = request.params.username
@@ -41,9 +47,10 @@ route.get("/users/:username", async (request, response) => {
 
 
 // kullanıcı bilgilerini değiştiriğimiz kısım
-route.post("/users/:userid/update", check_token, async (request, response) => {
+route.post("/users/:userid/update", check_token, user_avatar_upload.single("avatar"), async (request, response) => {
 
-    const { username, email, password, password_again, avatar } = request.body
+    const { username, email, password, password_again } = request.body
+    const { avatar } = request.file
   
     // isteği yapan / veya güncelleme yapılan kullanıcıyı bul
     try {
@@ -82,6 +89,9 @@ route.post("/users/:userid/update", check_token, async (request, response) => {
                 return response.status(400).json({ data: "Şifreler birbirleri ile uyuşmuyor"})
             }
         }
+
+        // avatarı db'e kaydet
+
 
         // user modeline kaydet
         const updated_user = await target_user.save()

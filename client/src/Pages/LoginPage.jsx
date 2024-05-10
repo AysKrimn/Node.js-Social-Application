@@ -47,7 +47,8 @@ export default function LoginPage() {
             // tokeni localde kaydet
             localStorage.setItem("token", response.token)
             // logni yap
-            yonlendir("/")
+            // yonlendir("/")
+            window.location.href = "/"
 
         }
         console.log("LOGİN APİ:", response)

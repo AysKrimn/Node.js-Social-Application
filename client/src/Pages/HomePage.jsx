@@ -8,10 +8,11 @@ import { base_endpoint } from '../API/RequestHandler'
 
 // providers
 import { TweetProvider } from '../Context/TweetContext'
-
+import { useNavigate } from 'react-router-dom'
 
 export default function HomePage() {
-
+  
+  const yonlendir = useNavigate()
   const [tweetInput, setTweetInput] = useState("")
   const [file, setFile] = useState("")
 
@@ -49,6 +50,13 @@ export default function HomePage() {
 
                 // context güncelle
                 setTweets([...tweets, response.data ])
+
+
+        } else if (request.status === 403) {
+                // anomim bi user mesaj atmaya çalısıyor
+                localStorage.setItem("cache_tweet", tweetInput)
+                yonlendir("/login")
+
         }
   }
 

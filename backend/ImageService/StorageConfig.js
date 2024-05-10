@@ -1,4 +1,8 @@
 import multer from "multer";
+import fs from 'fs'
+
+// built in functions, libraries
+
 // multer multipart/formdata headerini parseler
 const tweet_attachment_storage = multer.diskStorage({
 
@@ -34,6 +38,43 @@ const tweet_attachment_storage = multer.diskStorage({
 })
 
 
-const tweet_attachment_upload = multer({ storage: tweet_attachment_storage })
+// user avatar upload
+const user_avatar_storage = multer.diskStorage({
 
-export { tweet_attachment_upload }
+        destination: function(request, file, callback) {
+    
+                const path = `./public/avatars/${request.user.username}_${request.user.id}/`
+                
+                // eğer path yoksa oluştur
+                fs.mkdir(path, { recursive: true}, (error) => {
+
+                        if (error) {
+
+                                console.log("[CREATE AVATAR MIDDLEWARE] AVATAR OLUŞTURURKEN HATA MEYDANA GELDİ:", error)
+                                return
+                        }
+
+                })
+
+                callback(null, path)
+                
+        
+        },
+    
+    
+        filename: function(request, file, callback) {
+    
+                // bu fonksiyon dosya oluştura davranışı sergiler
+                console.log("GELEN DOSYA:", file)
+                const randomBisey = Math.floor(Math.random() * 2000)
+                callback(null, `avatar-${randomBisey}-${file.originalname}`)
+            
+        }
+    })
+
+
+const tweet_attachment_upload = multer({ storage: tweet_attachment_storage })
+const user_avatar_upload = multer({ storage: user_avatar_storage })
+
+
+export { tweet_attachment_upload, user_avatar_upload }

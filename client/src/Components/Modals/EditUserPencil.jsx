@@ -32,23 +32,23 @@ export default function EditUserPencil() {
         // reload olmasını önle
         event.preventDefault()
 
+        const payload = new FormData()
+
+        payload.append("username", username)
+        payload.append("email", email)
+        payload.append("passsword", passsword)
+        payload.append("password_again", password_again)
+        payload.append("avatar", avatar)
+
         const request = await fetch(`${base_endpoint}/users/${user.id}/update`, {
 
              method: "post",
              headers: {
 
-                "content-type": "application/json",
                 "authorization": accessToken
              },
 
-             body: JSON.stringify({
-
-                username, 
-                email,
-                passsword,
-                password_again,
-                avatar
-             })
+             body: payload
         })
 
        const response = await request.json()
@@ -143,7 +143,7 @@ export default function EditUserPencil() {
 
                             <div className='mb-2'>
                                 <input type='file' className='form-control' 
-                                    onChange={(e) => setAvatar(avatar)}
+                                    onChange={(e) => setAvatar(e.target.files[0])}
                                 />
                             </div>
                     </div>
