@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { UserProvider } from '../Context/UserContext'
 import EditUserPencil from './Modals/EditUserPencil'
+import { base_secondary_endpoint } from '../API/RequestHandler'
 
 export default function UserCard(props) {
 
@@ -28,17 +29,11 @@ export default function UserCard(props) {
 
  }
 
- let staticURL = ""
+ let avatarURL = "./defaultAvatar.jpg"
 
- const path = useLocation()
+ if (user !== null) {
 
- if (path.pathname === "/") {
-
-     staticURL = "./defaultAvatar.jpg"
-
- } else {
-
-     staticURL = "../defaultAvatar.jpg"
+       avatarURL = `${base_secondary_endpoint}${user.avatar}`
  }
 
 
@@ -76,7 +71,7 @@ export default function UserCard(props) {
 
                     <div className='tweet-avatar'>
                         
-                        <img src={staticURL} alt="logo" />
+                        <img src={avatarURL} alt="logo" />
 
                         {user ? <Link to={`/profile/${model?.username}`}>{model?.username}</Link> : "Anomim" }
                    

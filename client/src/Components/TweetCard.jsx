@@ -11,6 +11,7 @@ export default function TweetCard(props) {
   const { content } = props
   const [commentInput, setCommentInput] = useState("")
 
+  const avatarURL = `${base_secondary_endpoint}${content.author.avatar}`
 
   const create_comment = async () => {
 
@@ -82,7 +83,7 @@ export default function TweetCard(props) {
 
                     {/* foto */}
                     <div className='tweet-author-avatar'>
-                        <img src="./defaultAvatar.jpg" alt="avatar" />
+                        <img src={avatarURL} alt={`${content.author.username}'in fotoğrafı`} />
                     </div>
 
 

@@ -27,10 +27,11 @@ export default function MainLayout() {
 
                 const response = await request.json()
 
-                console.log("[LOGIN API]:", response)
+                console.log("[VERIFY API]:", response)
 
                 if (request.status === 200) {
 
+                    response.data.avatar = response.avatar
                     setUser(response.data)
                 } else {
 

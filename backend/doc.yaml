@@ -1,0 +1,60 @@
+swagger: "2.0"
+info:
+    title: Şirketimizin API Dökümantasyonu
+    description: X şirketi için oluşturulan API dökümantasyonudur.
+
+schemes: ["http", "https"]
+
+
+paths:
+    /api/v1/tweets:
+        get:
+          summary: "Bu endpoint tüm tweetleri döndürür."
+          description: "DB de kayıtlı olan tüm tweetler."
+          responses:
+              "200":
+                  description: "Başarılı bir şekilde tüm tweetleri alırsınız"
+              "500":
+                  description: "Internal Server Error"
+
+    /api/v1/tweets/{tweetId}:
+
+        get: 
+          summary: "Bu enpoint spesifik tweet'i döndürür"
+          description: "Spesifik bir tweet hakkında detaylı bilgiler alırsınız"
+          parameters:
+          - name: tweetId
+            in: path
+            description: "İlgili tweet'in idsi"
+            schema:
+                type: String
+                example: "66390e529dc9d9ce1ec26c59"
+
+          responses:
+              "200":
+                description: "Başarılı bir şekilde tweet'i alırsınız"
+              
+              "404":
+                 description: "Aranan Tweet Bulunamamıştır"
+
+              "500":
+
+                description: "Internal Server Error"
+
+    /api/v1//tweet/create:
+          post:
+
+            description: "Verilen payloada göre yeni bir tweet oluşturursunuz"
+
+
+            responses: 
+              "201":
+                  description: "Başarılı bir şekilde yeni tweet oluşturuldu"
+              "400":
+                  description: "User boş bir tweet oluşturmaya çalışıyor"
+
+              "401":  
+                  description: "User token gerekli"
+
+              "403":
+                  description: "Geçersiz Token"

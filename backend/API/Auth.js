@@ -34,7 +34,7 @@ route.post("/verify/token", (request, response) => {
     }
 
 
-    jwt.verify(token, process.env["JWT_SECRET"], function(error, user) {
+    jwt.verify(token, process.env["JWT_SECRET"], async function(error, user) {
 
 
         if (error) {
@@ -42,10 +42,26 @@ route.post("/verify/token", (request, response) => {
             return response.status(401).json({ data: "Geçersiz token"})
         }
 
+        // tokendeki user hala geçerli bir user mi?
+        const valid_user = await UserModel.findOne({ _id: user.id })
 
-        return response.status(200).json({ data: user})
+        if (valid_user) {
+
+            return response.status(200).json({ data: user, avatar: valid_user.avatar})
+        }
+
+
+        if (valid_user === null) {
+
+
+            return response.status(403).json({ data: "Böyle bir user bulunamadı"})
+        }
+
 
     })
+
+
+
 
 
 })

@@ -9,6 +9,11 @@ server.use(express.json())
 import 'dotenv/config'
 import make_db_connection from "./Database/connect.js"
 
+import swaggerUi from "swagger-ui-express"
+
+import yaml from "yamljs"
+// api dökümantasyon
+const swaggerDoc = yaml.load("./doc.yaml")
 
 // APIlar
 import { route as AuthenticationAPI } from "./API/Auth.js"
@@ -35,6 +40,9 @@ server.use(`${base_api_url}/`, AuthenticationAPI) // api/v1/login
 server.use(`${base_api_url}/`, UserAPI) // api/v1/users/omer
 server.use(`${base_api_url}/`, TweetAPI)  // api/v1/tweet/create
 server.use(`${base_api_url}/`, CommentAPI)  // api/v1/tweets/<tweetId>/[create, delete, update]/comment
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
+
+
 
 const port = process.env["PORT"]
 

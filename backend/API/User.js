@@ -50,7 +50,6 @@ route.get("/users/:username", async (request, response) => {
 route.post("/users/:userid/update", check_token, user_avatar_upload.single("avatar"), async (request, response) => {
 
     const { username, email, password, password_again } = request.body
-    const { avatar } = request.file
   
     // isteği yapan / veya güncelleme yapılan kullanıcıyı bul
     try {
@@ -91,6 +90,11 @@ route.post("/users/:userid/update", check_token, user_avatar_upload.single("avat
         }
 
         // avatarı db'e kaydet
+        if (request.file) {
+                const path = request.file.path.split('public\\')[1]
+                target_user.avatar = path
+                console.log("USER AVATAR :", path)
+        }
 
 
         // user modeline kaydet

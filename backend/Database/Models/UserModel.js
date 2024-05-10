@@ -34,10 +34,14 @@ const UserSchema = new mongoose.Schema({
         // user veya admin olabilir
     },
 
-    // createdAt & updatedAt
+    avatar: {
+
+        type: String,
+        default: `${process.env["DEVELOPMENT_DOMAIN"]}/avatars/default/no_avatar.jpg`
+    }
 
 }, {
-
+    // createdAt & updatedAt
     timestamps: true
 })
 

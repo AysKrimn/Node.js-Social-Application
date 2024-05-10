@@ -51,6 +51,8 @@ export default function HomePage() {
                 // context güncelle
                 setTweets([...tweets, response.data ])
 
+                alert("Başarılı bir şekilde gönderiniz paylaşıldı.")
+
 
         } else if (request.status === 403) {
                 // anomim bi user mesaj atmaya çalısıyor
